@@ -1,29 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from './authentication/login';
+import RegisterPage from './authentication/register';
+import HomePage from './pages/home';
+import ProductsPage from './pages/product';
+import ProductDetailPage from './pages/productpage';
+import CategoryProductsPage from './pages/Category';
+import CategoryDetailPage from './pages/Categorydetails';
+import SubCategoryPage from './pages/subcategory';
+import CartPage from './pages/cartpage';
+import OrdersPage from './pages/orders';
+import ProtectedRoute from './authentication/protectroute';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-       </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route path="/categories" element={<CategoryProductsPage />} />
+        <Route path="/category/:categoryId" element={<CategoryDetailPage />} />
+        <Route path="/subcategory/:subcategoryName" element={<SubCategoryPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+
+
+
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrdersPage />
+            </ProtectedRoute>
+          }
+        />
+      
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
