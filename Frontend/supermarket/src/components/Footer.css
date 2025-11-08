@@ -1,0 +1,95 @@
+.footer {
+  background-color: #0d1b2a;
+  color: #ffffff;
+  padding: 45px 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  text-align: left;
+}
+
+/* Section Styling */
+.footer-section {
+  flex: 1;
+  min-width: 260px;
+}
+
+/* About Section */
+.footer-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffdd00;
+}
+
+.footer-tagline {
+  margin-top: 10px;
+  font-size: 15px;
+  opacity: 0.9;
+  max-width: 300px;
+}
+
+/* Contact Section */
+.contact-title {
+  color: #ffdd00;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Follow Section */
+.follow-text {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  color: #ffdd00;
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 18px;
+}
+
+.social-icons a {
+  font-size: 28px;
+  transition: 0.3s;
+  color: #ffffff;
+}
+
+.social-icons a:hover {
+  color: #00a8e8;
+  transform: scale(1.15);
+}
+
+/* Bottom Section */
+.footer-bottom {
+  margin-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+}

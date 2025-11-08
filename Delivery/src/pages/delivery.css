@@ -1,0 +1,510 @@
+/* DeliveryAgentDashboard.css */
+:root {
+    --primary-color: #ffffff;
+    --secondary-color: #27ae60;
+    --accent-color: #3498db;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --background-light: #f8f9fa;
+    --border-color: #e9ecef;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+    --danger-color: #e74c3c;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .delivery-dashboard {
+    min-height: 100vh;
+    background: var(--background-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Header */
+  .dashboard-header {
+    background: var(--primary-color);
+    padding: 2rem 0;
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .title-icon {
+    font-size: 3rem;
+  }
+  
+  .header-title h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .header-title p {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .refresh-btn {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .refresh-btn:hover {
+    background: #219653;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  /* Stats Section */
+  .stats-section {
+    padding: 2rem 0;
+  }
+  
+  .stats-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .stat-card {
+    background: var(--primary-color);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--secondary-color);
+  }
+  
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+  }
+  
+  .stat-icon.total { background: linear-gradient(135deg, #667eea, #764ba2); }
+  .stat-icon.pending { background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .stat-icon.out { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+  .stat-icon.delivered { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  
+  .stat-info h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .stat-info p {
+    color: var(--text-light);
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  /* Alert Message */
+  .alert-message {
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 1rem 2rem;
+    background: var(--success-color);
+    color: var(--primary-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .alert-message.success {
+    background: var(--success-color);
+  }
+  
+  /* Filters Section */
+  .filters-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
+  
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-tab {
+    background: var(--primary-color);
+    border: 2px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filter-tab:hover {
+    border-color: var(--secondary-color);
+  }
+  
+  .filter-tab.active {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border-color: var(--secondary-color);
+  }
+  
+  .filter-label {
+    font-weight: 600;
+  }
+  
+  .filter-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  
+  .filter-tab.active .filter-count {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Orders Section */
+  .orders-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+  }
+  
+  .orders-table-container {
+    background: var(--primary-color);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .orders-table th {
+    background: var(--background-light);
+    padding: 1.5rem;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .orders-table td {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .orders-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .orders-table tr:hover {
+    background: var(--background-light);
+  }
+  
+  /* Order Info */
+  .order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .order-id {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+  }
+  
+  .order-date {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+  
+  .customer-name {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .amount {
+    font-weight: 700;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+  }
+  
+  /* Status Badges */
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .status-pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+  
+  .status-out {
+    background: #cce7ff;
+    color: #004085;
+  }
+  
+  .status-delivered {
+    background: #d4edda;
+    color: #155724;
+  }
+  
+  /* Status Update */
+  .status-update {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .status-select {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .status-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+  }
+  
+  .status-select:disabled {
+    background: var(--background-light);
+    cursor: not-allowed;
+  }
+  
+  .delivered-badge {
+    background: var(--success-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  
+  .check-icon {
+    font-weight: bold;
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--primary-color);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+  }
+  
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .empty-state h3 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+  
+  .empty-state p {
+    color: var(--text-light);
+  }
+  
+  /* Actions Section */
+  .actions-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .actions-section h3 {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .action-card {
+    background: var(--primary-color);
+    border: 2px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .action-card:hover {
+    border-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  
+  .action-icon {
+    font-size: 2.5rem;
+  }
+  
+  .action-text {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  /* Loading State */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    gap: 1rem;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  .loading-container p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  
+    .header-title {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .filter-tabs {
+      justify-content: center;
+    }
+  
+    .orders-table {
+      display: block;
+      overflow-x: auto;
+    }
+  
+    .orders-table th,
+    .orders-table td {
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .filter-tabs {
+      flex-direction: column;
+    }
+  
+    .actions-grid {
+      grid-template-columns: 1fr;
+    }
+  }

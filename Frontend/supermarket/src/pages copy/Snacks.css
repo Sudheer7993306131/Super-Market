@@ -1,0 +1,75 @@
+.snacks-page {
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.snacks-page h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2b9348;
+}
+
+.snacks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.snack-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.snack-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.snack-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.snack-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.snack-card .price {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.snack-card .mrp {
+  font-weight: 600;
+}
+
+.snack-card .market-price {
+  text-decoration: line-through;
+  color: gray;
+  margin-left: 5px;
+}
+
+.snack-card .add-to-cart {
+  background-color: #2b9348;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.snack-card .add-to-cart:hover {
+  background-color: #23753a;
+}

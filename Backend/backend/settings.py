@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
     'users',
+    'django_extensions',
 
 ]
 

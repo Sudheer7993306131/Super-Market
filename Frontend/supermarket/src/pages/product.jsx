@@ -1,166 +1,215 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { FaHeart } from 'react-icons/fa'; // Import heart icon from react-icons
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "./ProductPage.css";
 
-const ProductsPage = ({ userId = 1 }) => {
+const ProductsPage = () => {
+  const { subcategoryName } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [quantities, setQuantities] = useState({});
-  const [wishlistItems, setWishlistItems] = useState([]); // store wishlist product IDs
+  const [error, setError] = useState(null);
+  const [sortBy, setSortBy] = useState("name");
+  const [filterPrice, setFilterPrice] = useState("all");
+
+  const decodeSubcategory = (slug) => {
+    if (!slug) return "";
+    const decoded = decodeURIComponent(slug);
+    return decoded.replace(/-/g, " ");
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/products/');
-        setProducts(response.data);
-        setLoading(false);
+    if (!subcategoryName) return;
 
-        const initialQuantities = {};
-        response.data.forEach(product => {
-          initialQuantities[product.id] = 1;
-        });
-        setQuantities(initialQuantities);
+    const subcategoryForApi = decodeSubcategory(subcategoryName);
 
-        // Fetch wishlist items
-        const token = localStorage.getItem("access_token");
-        if (token) {
-          const wishlistRes = await axios.get(
-            'http://localhost:8000/api/wishlist/',
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          setWishlistItems(wishlistRes.data.map(item => item.product.id));
+    setLoading(true);
+    setError(null);
+
+    fetch(
+      `http://127.0.0.1:8000/api/products/subcategory/${encodeURIComponent(subcategoryForApi)}/`
+    )
+      .then((res) => {
+        if (!res.ok) throw new Error(`Server responded ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProducts(data);
+        } else if (Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          setProducts([]);
+          setError("Invalid response format from server.");
         }
-      } catch (err) {
-        console.error(err);
-        setError('Failed to fetch products');
         setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to load products. Please try again.");
+        setLoading(false);
+      });
+  }, [subcategoryName]);
+
+  const getFilteredAndSortedProducts = () => {
+    let filtered = [...products];
+
+    // Apply price filter
+    if (filterPrice !== "all") {
+      filtered = filtered.filter(product => {
+        const price = product.price;
+        switch (filterPrice) {
+          case "under500": return price < 500;
+          case "500-1000": return price >= 500 && price <= 1000;
+          case "1000-2000": return price >= 1000 && price <= 2000;
+          case "over2000": return price > 2000;
+          default: return true;
+        }
+      });
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "price-low": return a.price - b.price;
+        case "price-high": return b.price - a.price;
+        case "name": return a.name.localeCompare(b.name);
+        default: return 0;
       }
-    };
+    });
 
-    fetchProducts();
-  }, []);
-
-  const handleQuantityChange = (productId, value) => {
-    setQuantities({ ...quantities, [productId]: value });
+    return filtered;
   };
 
-  const handleAddToCart = async (productId, quantity) => {
-    try {
-      const token = localStorage.getItem("access_token");
-      await axios.post(
-        "http://localhost:8000/api/cart/add/",
-        { product_id: productId, quantity: quantity },
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
-      );
-      console.log("Cart updated");
-    } catch (error) {
-      console.error("Error adding to cart:", error.response?.data || error.message);
-    }
-  };
-
-  const handleOrderNow = async (productId) => {
-    const token = localStorage.getItem('access_token');
-    const userId = localStorage.getItem('user_id');
-    const quantity = quantities[productId] || 1;
-
-    if (!token) {
-      alert('You must log in first!');
-      return;
-    }
-
-    try {
-      await axios.post(
-        'http://localhost:8000/api/cart/add/',
-        { user_id: userId, product_id: productId, quantity: quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      await axios.post(
-        'http://localhost:8000/api/order/place/',
-        { user_id: userId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      alert('Order placed successfully!');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to place order. Please try again.');
-    }
-  };
-
-  const handleAddToWishlist = async (productId) => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      alert("You must log in to add to wishlist!");
-      return;
-    }
-
-    try {
-      await axios.post(
-        "http://localhost:8000/api/wishlist/add/",
-        { product_id: productId },
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
-      );
-
-      // Update local wishlist state
-      setWishlistItems(prev => [...prev, productId]);
-      alert("Product added to wishlist!");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to add to wishlist.");
-    }
-  };
-
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p>{error}</p>;
+  const filteredProducts = getFilteredAndSortedProducts();
+  const prettyTitle = subcategoryName
+    ? decodeSubcategory(subcategoryName).replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Products";
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginTop: 20 }}>
-      {products.map((product) => (
-        <div key={product.id} style={{ border: '1px solid #ddd', padding: 20, width: 220, borderRadius: 8, textAlign: 'center', position: 'relative' }}>
+    <div className="products-container">
+      {/* Header */}
+      <div className="page-header">
+        <div className="header-content">
+          <h1 className="page-title">{prettyTitle}</h1>
+          <p className="product-count">
+            {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} available
+          </p>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="controls-bar">
+        <div className="controls-left">
+          <div className="filter-group">
+            <label>Sort by:</label>
+            <select 
+              value={sortBy} 
+              onChange={(e) => setSortBy(e.target.value)}
+              className="filter-select"
+            >
+              <option value="name">Name</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
           
-          {/* Wishlist Icon */}
-          <FaHeart
-            onClick={() => handleAddToWishlist(product.id)}
-            color={wishlistItems.includes(product.id) ? 'red' : 'gray'}
-            size={20}
-            style={{ position: 'absolute', top: 10, right: 10, cursor: 'pointer' }}
-          />
-
-          {/* Product Image */}
-          {product.product_image && (
-            <img
-              src={`http://localhost:8000${product.product_image}`}
-              alt={product.name}
-              style={{ width: '100%', height: 150, objectFit: 'contain', marginBottom: 10, borderRadius: 6 }}
-            />
-          )}
-
-          <h3>{product.name}</h3>
-          <p>Category: {product.category.name}</p>
-          <p>Price: ₹{product.price}</p>
-          <p>Stock: {product.stock}</p>
-          <p style={{ fontSize: '12px', color: '#555' }}>{product.description}</p>
-
-          <div style={{ marginTop: 10 }}>
-            <input
-              type="number"
-              min="1"
-              max={product.stock}
-              value={quantities[product.id] || 1}
-              onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-              style={{ width: 60, marginRight: 10 }}
-            />
-            <button onClick={() => handleAddToCart(product.id, quantities[product.id])} style={{ padding: '5px 10px', marginRight: 5 }}>
-              Add to Cart
-            </button>
-            <button onClick={() => handleOrderNow(product.id)} style={{ padding: '5px 10px' }}>
-              Order Now
-            </button>
+          <div className="filter-group">
+            <label>Price:</label>
+            <select 
+              value={filterPrice} 
+              onChange={(e) => setFilterPrice(e.target.value)}
+              className="filter-select"
+            >
+              <option value="all">All Prices</option>
+              <option value="under500">Under ₹500</option>
+              <option value="500-1000">₹500 - ₹1000</option>
+              <option value="1000-2000">₹1000 - ₹2000</option>
+              <option value="over2000">Over ₹2000</option>
+            </select>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {loading && (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Loading products...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="error-state">
+            <div className="error-icon">⚠️</div>
+            <h3>Something went wrong</h3>
+            <p>{error}</p>
+            <button 
+              className="retry-button"
+              onClick={() => window.location.reload()}
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && filteredProducts.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">📦</div>
+            <h3>No products found</h3>
+            <p>We couldn't find any products matching your criteria.</p>
+            <button 
+              className="clear-filters"
+              onClick={() => setFilterPrice("all")}
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && filteredProducts.length > 0 && (
+          <div className="products-grid">
+            {filteredProducts.map((product) => {
+              const imageUrl = product.image?.startsWith("http")
+                ? product.image
+                : `http://127.0.0.1:8000${product.image}`;
+
+              return (
+                <div className="product-card" key={product.id}>
+                  <div className="card-image">
+                    <img
+                      src={imageUrl}
+                      alt={product.name}
+                      className="product-img"
+                      onError={(e) => {
+                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f5f5f5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
+                      }}
+                    />
+                    <div className="image-overlay">
+                      <Link to={`/products/${product.id}`} className="view-details">
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                  
+                  <div className="card-content">
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-description">
+                      {product.description || "High-quality product with excellent features."}
+                    </p>
+                    <div className="price-section">
+                      <span className="price">₹{product.price}</span>
+                    </div>
+                    <div className="card-actions">
+                      <Link to={`/products/${product.id}`} className="details-btn">
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

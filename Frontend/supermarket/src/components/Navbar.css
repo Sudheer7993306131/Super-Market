@@ -1,0 +1,246 @@
+/* ==========================
+   Navbar Base Styles
+========================== */
+.supermarket-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    color: #222;
+    padding: 12px 40px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .navbar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2b9348;
+  }
+  
+  .navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .search-container {
+    position: relative;
+    width: 70%;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #888;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 12px 10px 35px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #2b9348;
+    box-shadow: 0 0 4px rgba(43, 147, 72, 0.3);
+  }
+  
+  .navbar-right .nav-icon {
+    margin-left: 20px;
+    cursor: pointer;
+    color: #333;
+    font-size: 18px;
+    transition: 0.3s;
+  }
+  
+  .navbar-right .nav-icon:hover {
+    color: #2b9348;
+  }
+  
+  /* ==========================
+     Offcanvas Panel
+  ========================== */
+  .offcanvas-panel {
+    position: fixed;
+    top: 0;
+    right: -340px;
+    width: 320px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: -3px 0 12px rgba(0, 0, 0, 0.2);
+    transition: right 0.35s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-left: 5px solid #2b9348;
+  }
+  
+  .offcanvas-panel.active {
+    right: 0;
+  }
+  
+  /* Header */
+  .offcanvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2b9348;
+    color: white;
+    padding: 18px 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  
+  .close-icon {
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .close-icon:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Content */
+  .offcanvas-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .welcome-text {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .offcanvas-action {
+    background: #f8f8f8;
+    border: 1px solid #2b9348;
+    color: #2b9348;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+  
+  .offcanvas-action:hover {
+    background: #2b9348;
+    color: #fff;
+    transform: translateX(4px);
+  }
+  
+  .offcanvas-action.logout {
+    border-color: #d9534f;
+    color: #d9534f;
+  }
+  
+  .offcanvas-action.logout:hover {
+    background-color: #d9534f;
+    color: #fff;
+  }
+  
+  /* Divider Line */
+  .divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 15px 0;
+  }
+  
+  /* Backdrop */
+  .offcanvas-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 900;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .offcanvas-panel {
+      width: 85%;
+    }
+    .navbar-center .search-container {
+      width: 90%;
+    }
+  }
+  
+  
+  
+  
+  
+  /* ===================== NOTIFICATION PANEL ===================== */
+  .notification-panel {
+    border-left: 5px solid #ffd43b;
+  }
+  
+  .notifications-list {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #eaeaea;
+    transition: all 0.3s;
+  }
+  
+  .notification-item:hover {
+    background: #e8f7eb;
+    transform: translateX(5px);
+  }
+  
+  .notif-icon {
+    color: #2b9348;
+    font-size: 20px;
+    margin-top: 3px;
+  }
+  
+  .notification-item p {
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Smooth transition for all panels */
+  .offcanvas-panel,
+  .notification-panel {
+    transition: right 0.35s ease, opacity 0.2s;
+  }
+  
