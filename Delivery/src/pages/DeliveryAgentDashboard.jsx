@@ -204,7 +204,14 @@ const DeliveryAgentDashboard = () => {
               </thead>
               <tbody>
                 {filteredOrders.map((order) => (
-                  <tr key={order.id} className="order-row">
+                  <tr
+                  key={order.id}
+                  className="order-row"
+                  onMouseEnter={(e) => showUserPopup(order, e)}
+                  onMouseMove={(e) => showUserPopup(order, e)}
+                  onMouseLeave={hideUserPopup}
+                  >
+                
                     <td>
                       <div className="order-info">
                         <div className="order-id">Order #{order.order_id}</div>
@@ -274,4 +281,4 @@ const DeliveryAgentDashboard = () => {
   );
 };
 
-export default DeliveryAgentDashboard;
+export default DeliveryAgentDashboard;  

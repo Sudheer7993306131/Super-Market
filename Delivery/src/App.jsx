@@ -10,7 +10,7 @@ function App() {
   <Router>
     <Routes>
       <Route path="/dash" element={<DeliveryAgentDashboard />} />
-      <Route path="/login" element={<DeliveryAgentLogin />} />
+      <Route path="/" element={<DeliveryAgentLogin />} />
     </Routes>
   </Router>
   )

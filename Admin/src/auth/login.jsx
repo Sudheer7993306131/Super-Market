@@ -24,7 +24,7 @@ const AdminLogin = () => {
       localStorage.setItem("is_staff", res.data.is_staff);
 
       if (res.data.is_staff) {
-        navigate("/dashboard");
+        navigate("/dash");
       } else {
         setError("Access denied: you are not an admin.");
       }

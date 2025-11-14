@@ -109,10 +109,11 @@ const Navbar = () => {
             My Orders
           </button>
 
-          <button className="offcanvas-action" onClick={() => navigate("/profile")}>
+          {/* <button className="offcanvas-action" onClick={() => navigate("/profile")}>
             <FontAwesomeIcon icon={faUser} className="action-icon" />
             My Profile
-          </button>
+          </button> */}
+         
 
           <button className="offcanvas-action logout" onClick={() => alert("Logged out!")}>
             <FontAwesomeIcon icon={faRightFromBracket} className="action-icon" />

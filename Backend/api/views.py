@@ -239,20 +239,24 @@ def get_order_details(request, order_id):
 
 # Wishlist
 
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_wishlist(request):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
     items = WishlistItem.objects.filter(wishlist=wishlist)
-    serializer = WishlistItemSerializer(items, many=True)
-    return Response(serializer.data)
+    
+    # Return only product IDs
+    wishlist_ids = [item.product.id for item in items]
 
-@api_view(['POST'])
+    return Response({"wishlist": wishlist_ids})
+
+
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_to_wishlist(request):
     user = request.user
     product_id = request.data.get("product_id")
+
     if not product_id:
         return Response({"error": "Product ID is required"}, status=400)
 
@@ -263,27 +267,26 @@ def add_to_wishlist(request):
 
     wishlist, created = Wishlist.objects.get_or_create(user=user)
 
-    # Check if product already in wishlist
     if WishlistItem.objects.filter(wishlist=wishlist, product=product).exists():
         return Response({"message": "Product already in wishlist"})
 
-    wishlist_item = WishlistItem.objects.create(wishlist=wishlist, product=product)
-    return Response({"message": "Product added to wishlist"})
+    WishlistItem.objects.create(wishlist=wishlist, product=product)
+
+    return Response({"message": "Added", "product_id": product_id})
 
 
 
-
-@api_view(['DELETE'])
+@api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
 def remove_from_wishlist(request, product_id):
-    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
     try:
         item = WishlistItem.objects.get(wishlist=wishlist, product_id=product_id)
         item.delete()
-        return Response({"message": "Item removed from wishlist."})
+        return Response({"message": "Removed", "product_id": product_id})
     except WishlistItem.DoesNotExist:
-        return Response({"error": "Item not found in wishlist."}, status=404)
-
+        return Response({"error": "Item not found"}, status=404)
 
 
 

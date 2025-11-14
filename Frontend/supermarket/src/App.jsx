@@ -14,6 +14,8 @@ import ProtectedRoute from './authentication/protectroute';
 import WishlistPage from './pages/wishlist';
 import Navbar from './components/Navbar';
 import Secondarynav from './components/Secondarynav';
+import BuyNowPage from './pages/BuyNowPage';
+import ProfilePage from './pages/Profile';
 
 
 
@@ -25,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/buy" element={<BuyNowPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products/subcategory/:subcategoryName" element={<ProductsPage />} />
 
@@ -35,6 +38,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/wish" element={<WishlistPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
 
 
