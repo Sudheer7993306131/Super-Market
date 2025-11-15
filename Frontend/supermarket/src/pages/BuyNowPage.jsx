@@ -644,45 +644,9 @@ const BuyNowPage = () => {
                         </label>
                       </div>
                       
-                      <div className={`payment-option ${formData.paymentMethod === "card" ? "selected" : ""}`}>
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          id="card"
-                          value="card"
-                          checked={formData.paymentMethod === "card"}
-                          onChange={handleChange}
-                        />
-                        <label htmlFor="card" className="payment-label">
-                          <div className="payment-icon">
-                            <div className="icon-wrapper">💳</div>
-                          </div>
-                          <div className="payment-info">
-                            <div className="payment-name">Credit / Debit Card</div>
-                            <div className="payment-desc">Pay securely with your card</div>
-                          </div>
-                        </label>
-                      </div>
                       
-                      <div className={`payment-option ${formData.paymentMethod === "upi" ? "selected" : ""}`}>
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          id="upi"
-                          value="upi"
-                          checked={formData.paymentMethod === "upi"}
-                          onChange={handleChange}
-                        />
-                        <label htmlFor="upi" className="payment-label">
-                          <div className="payment-icon">
-                            <div className="icon-wrapper">📱</div>
-                          </div>
-                          <div className="payment-info">
-                            <div className="payment-name">UPI / Digital Wallet</div>
-                            <div className="payment-desc">Google Pay, PhonePe, Paytm</div>
-                          </div>
-                        </label>
-                      </div>
+                      
+                      
                     </div>
 
                     {/* Order Review */}
@@ -713,7 +677,7 @@ const BuyNowPage = () => {
                       </div>
                     </div>
                     
-                    <div className="step-actions">
+                    <div className="step-actions" style={{justifyContent:"space-between"}}>
                       <button type="button" className="btn btn-secondary" onClick={prevStep}>
                         <span className="btn-arrow">←</span>
                         Back

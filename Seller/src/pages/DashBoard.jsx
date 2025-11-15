@@ -348,46 +348,7 @@ const SellerDashboard = () => {
         </section>
 
         {/* Additional Metrics */}
-        <section className="metrics-section">
-          <div className="content-card">
-            <div className="card-header">
-              <h3>Store Performance</h3>
-              <span className="card-subtitle">Your business insights</span>
-            </div>
-            <div className="card-content">
-              <div className="metrics-grid">
-                <div className="metric-item">
-                  <div className="metric-value">
-                    {user?.seller_rating || '4.5'}/5
-                  </div>
-                  <div className="metric-label">Seller Rating</div>
-                  <div className="metric-trend up">⭐</div>
-                </div>
-                <div className="metric-item">
-                  <div className="metric-value">
-                    {user?.response_rate || '89%'}
-                  </div>
-                  <div className="metric-label">Response Rate</div>
-                  <div className="metric-trend up">💬</div>
-                </div>
-                <div className="metric-item">
-                  <div className="metric-value">
-                    {user?.on_time_delivery || '92%'}
-                  </div>
-                  <div className="metric-label">On-time Delivery</div>
-                  <div className="metric-trend stable">🚚</div>
-                </div>
-                <div className="metric-item">
-                  <div className="metric-value">
-                    {user?.customer_satisfaction || '94%'}
-                  </div>
-                  <div className="metric-label">Customer Satisfaction</div>
-                  <div className="metric-trend stable">😊</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
       </div>
     </div>
   );

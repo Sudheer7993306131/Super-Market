@@ -6,7 +6,7 @@ from .models import Product, Category, SubCategory, CartItem, Cart, Order, Order
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from .serializers import ProductSerializer, CategorySerializer, CartSerializer, OrderSerializer,WishlistItemSerializer,SellerSerializer,SubCategorySerializer,DeliveryAgentSerializer,DeliveryAssignmentSerializer,UserAddressSerializer,UserListSerializer
+from .serializers import ProductSerializer, CategorySerializer,DeliveryOrderSerializer, CartSerializer, OrderSerializer,WishlistItemSerializer,SellerSerializer,SubCategorySerializer,DeliveryAgentSerializer,DeliveryAssignmentSerializer,UserAddressSerializer,UserListSerializer
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from datetime import timedelta
@@ -224,6 +224,12 @@ def get_orders(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_allorders(request):
+    orders = Order.objects.filter().order_by('-created_at')
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -756,3 +762,84 @@ def admin_delete_user(request, user_id):
 
     user.delete()
     return Response({'message': 'User deleted'}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def assign_order_to_agent(request, order_id):
+    """
+    Assigns an order to a delivery agent using DeliveryAssignment model
+    """
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        return Response({"error": "Order not found"}, status=404)
+
+    agent_id = request.data.get("agent_id")
+    if not agent_id:
+        return Response({"error": "agent_id is required"}, status=400)
+
+    try:
+        agent = DeliveryAgent.objects.get(id=agent_id)
+    except DeliveryAgent.DoesNotExist:
+        return Response({"error": "Delivery agent not found"}, status=404)
+
+    # Check if an assignment already exists
+    assignment, created = DeliveryAssignment.objects.get_or_create(order=order)
+    assignment.delivery_agent = agent
+    assignment.status = 'Pending'  # Reset status when reassigning
+    assignment.save()
+
+    return Response({"success": f"Order {order.id} assigned to {agent.user.username}"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_agents(request):
+    agents = DeliveryAgent.objects.all()
+    serializer = DeliveryAgentSerializer(agents, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_delivery_order_detail(request, id):
+    """
+    Retrieve a specific order and the associated customer's address
+    for the delivery agent.
+    """
+    # Get the order by ID
+    order = get_object_or_404(Order, id=id)
+
+    # Serialize the order (includes user_address from DeliveryOrderSerializer)
+    serializer = DeliveryOrderSerializer(order)
+
+    return Response(serializer.data)
+@api_view(['GET'])
+def get_user_address(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"success": False, "error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Get all addresses for the user
+    addresses = UserAddress.objects.filter(user=user)
+    if not addresses.exists():
+        return Response({"success": False, "error": "No addresses found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = UserAddressSerializer(addresses, many=True)
+    return Response({"success": True, "user_addresses": serializer.data}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_delivery_assignments(request):
+    """
+    Returns all delivery assignments for the logged-in user.
+    """
+    # Filter delivery assignments for orders belonging to the logged-in user
+    assignments = DeliveryAssignment.objects.filter(order__user=request.user).order_by('-assigned_at')
+    
+    serializer = DeliveryAssignmentSerializer(assignments, many=True)
+    return Response(serializer.data)

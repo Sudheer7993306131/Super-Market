@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from "../assets/Logo.jpeg"
+import logo from "../assets/Logo.jpeg";
 import {
   faShoppingCart,
   faBell,
@@ -21,6 +21,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleProfile = () => {
     setShowNotifications(false);
@@ -37,6 +38,25 @@ const Navbar = () => {
     setShowNotifications(false);
   };
 
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Navigate to home if search is cleared
+    if (value.trim() === "") {
+      navigate("/");
+    }
+  };
+
+  // Handle search submit (Enter key)
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim() !== "") {
+      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+    }
+  };
+
   return (
     <>
       {/* =================== Navbar =================== */}
@@ -49,14 +69,16 @@ const Navbar = () => {
 
         {/* Center - Search */}
         <div className="navbar-center">
-          <div className="search-container">
+          <form className="search-container" onSubmit={handleSearchSubmit}>
             <FontAwesomeIcon icon={faSearch} className="search-icon" />
             <input
               type="text"
               placeholder="Search for products, brands and more..."
               className="search-input"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-          </div>
+          </form>
         </div>
 
         {/* Right Section - Icons */}
@@ -108,12 +130,6 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faBox} className="action-icon" />
             My Orders
           </button>
-
-          {/* <button className="offcanvas-action" onClick={() => navigate("/profile")}>
-            <FontAwesomeIcon icon={faUser} className="action-icon" />
-            My Profile
-          </button> */}
-         
 
           <button className="offcanvas-action logout" onClick={() => alert("Logged out!")}>
             <FontAwesomeIcon icon={faRightFromBracket} className="action-icon" />

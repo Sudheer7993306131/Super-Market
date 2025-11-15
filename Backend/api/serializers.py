@@ -105,6 +105,11 @@ class WishlistItemSerializer(serializers.ModelSerializer):
         model = WishlistItem
         fields = ['id', 'product', 'added_at']
 
+# User Address
+class UserAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAddress
+        fields = "__all__"
 
 class DeliveryAgentSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
@@ -113,6 +118,13 @@ class DeliveryAgentSerializer(serializers.ModelSerializer):
         model = DeliveryAgent
         fields = ['id', 'username', 'phone', 'vehicle_number', 'current_location', 'is_active']
 
+
+class DeliveryOrderSerializer(serializers.ModelSerializer):
+    user_address = UserAddressSerializer(source='address', read_only=True)
+    
+    class Meta:
+        model = Order
+        fields = ['id', 'order_id', 'customer_name', 'total_price', 'status', 'assigned_at', 'user_address']
 
 class DeliveryAssignmentSerializer(serializers.ModelSerializer):
     order_id = serializers.IntegerField(source='order.id', read_only=True)
@@ -125,10 +137,6 @@ class DeliveryAssignmentSerializer(serializers.ModelSerializer):
 
 
 # User Address
-class UserAddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserAddress
-        fields = "__all__"
 
 
 class UserListSerializer(serializers.ModelSerializer):

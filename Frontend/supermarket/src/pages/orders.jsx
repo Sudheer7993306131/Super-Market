@@ -23,7 +23,6 @@ const OrderPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       
-      // Ensure orders have proper structure
       const processedOrders = res.data.map(order => ({
         ...order,
         status: order.status || 'pending',
@@ -59,7 +58,6 @@ const OrderPage = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return 'Date not available';
-    
     try {
       return new Date(dateString).toLocaleDateString('en-IN', {
         year: 'numeric',
@@ -74,8 +72,7 @@ const OrderPage = () => {
   };
 
   const getStatusColor = (status) => {
-    const statusValue = (status || 'pending').toString().toLowerCase();
-    
+    const statusValue = (status || 'pending').toLowerCase();
     switch (statusValue) {
       case 'confirmed':
       case 'processing':
@@ -95,8 +92,7 @@ const OrderPage = () => {
   };
 
   const getStatusText = (status) => {
-    const statusValue = (status || 'pending').toString().toLowerCase();
-    
+    const statusValue = (status || 'pending').toLowerCase();
     switch (statusValue) {
       case 'confirmed':
         return 'Order Confirmed';
@@ -114,6 +110,36 @@ const OrderPage = () => {
       default:
         return status || 'Pending';
     }
+  };
+
+  const getOrderProgress = (status) => {
+    switch ((status || 'pending').toLowerCase()) {
+      case 'pending':
+        return 10;
+      case 'confirmed':
+        return 30;
+      case 'processing':
+        return 50;
+      case 'shipped':
+        return 80;
+      case 'delivered':
+        return 100;
+      case 'cancelled':
+      case 'canceled':
+        return 0;
+      default:
+        return 0;
+    }
+  };
+
+  const getProductImage = (product) => {
+    if (!product) return '/default-product-image.jpg';
+    
+    const imageUrl = product?.image?.startsWith("http")
+      ? product.image
+      : `http://127.0.0.1:8000${product?.image}`;
+    
+    return imageUrl;
   };
 
   const continueShopping = () => {
@@ -200,16 +226,32 @@ const OrderPage = () => {
                   </div>
                 </div>
 
+                {/* Progress Bar */}
+                <div className="order-progress-section">
+                  <div className="progress-label">
+                    <span>Status: {getStatusText(order.status)}</span>
+                  </div>
+                  <div className="progress-bar-container">
+                    <div
+                      className="progress-bar-fill"
+                      style={{
+                        width: `${getOrderProgress(order.status)}%`,
+                        backgroundColor: getStatusColor(order.status),
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
                 {/* Order Items */}
                 <div className="order-items">
                   {(order.items || []).map((item, index) => (
                     <div key={item.id || index} className="order-item">
                       <div className="item-image">
                         <img 
-                          src={item.product?.image || item.image || '/default-product-image.jpg'} 
+                          src={getProductImage(item.product)}
                           alt={item.product_name || 'Product'}
-                          onError={(e) => {
-                            e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMi41IDIyLjVIMzdWMzcuNUgyMi41VjIyLjVaIiBmaWxsPSIjRDhEOEQ4Ii8+CjxwYXRoIGQ9Ik0yNSA1MFYzMEwzNSA1MEgyNVoiIHN0cm9rZT0iI0I4QjhCOCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo=';
+                          onError={(e) => { 
+                            e.target.src = '/default-product-image.jpg'; 
                           }}
                         />
                       </div>
@@ -262,23 +304,15 @@ const OrderPage = () => {
 
                 {/* Order Actions */}
                 <div className="order-actions">
-                  <button className="btn-outline">
-                    View Details
-                  </button>
+                  <button className="btn-outline">View Details</button>
                   {order.status && order.status.toLowerCase() === 'delivered' && (
-                    <button className="btn-primary">
-                      Buy Again
-                    </button>
+                    <button className="btn-primary">Buy Again</button>
                   )}
                   {order.status && order.status.toLowerCase() === 'confirmed' && (
-                    <button className="btn-cancel">
-                      Cancel Order
-                    </button>
+                    <button className="btn-cancel">Cancel Order</button>
                   )}
                   {order.status && order.status.toLowerCase() === 'shipped' && (
-                    <button className="btn-primary">
-                      Track Order
-                    </button>
+                    <button className="btn-primary">Track Order</button>
                   )}
                 </div>
               </div>
@@ -320,9 +354,7 @@ const OrderPage = () => {
               <h3>Need Help?</h3>
               <div className="support-content">
                 <p>If you have any questions about your orders, our support team is here to help.</p>
-                <button className="support-btn">
-                  Contact Support
-                </button>
+                <button className="support-btn">Contact Support</button>
                 <div className="support-info">
                   <div className="info-item">
                     <span className="info-icon">📞</span>
@@ -336,6 +368,7 @@ const OrderPage = () => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

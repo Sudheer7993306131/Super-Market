@@ -26,8 +26,10 @@ urlpatterns = [
     # Order
     path('order/place/', views.place_order, name='place_order'),
     path('orders/', views.get_orders, name='get_orders'),
+    path('ordersall/', views.get_allorders, name='get_orders'),
     path('order/<int:order_id>/', views.get_order_details, name='get_order_details'),
-
+    path('admin/orders/<int:order_id>/assign/', views.assign_order_to_agent, name='assign_order'),
+    path('admin/agents/', views.get_all_agents, name='get_all_agents'),
     # Wishlist
     path('wishlist/', views.get_wishlist, name='get_wishlist'),
     path('wishlist/add/', views.add_to_wishlist, name='add_to_wishlist'),
@@ -54,7 +56,10 @@ urlpatterns = [
     path('addresses/update/<int:pk>/', views.update_user_address, name='update_user_address'),
     path('addresses/delete/<int:pk>/', views.delete_user_address, name='delete_user_address'),
 
+    path('orders/<int:id>/', views.user_delivery_order_detail, name='user-order-detail'),
 
+    path('address/<str:username>/', views.get_user_address, name='get_user_address'),
+    path('order/delivery-assignments/', views.user_delivery_assignments, name='user-delivery-assignments'),
 
     # Admin
     path('admin/users/', views.admin_list_users, name='admin_list_users'),

@@ -16,6 +16,8 @@ import Navbar from './components/Navbar';
 import Secondarynav from './components/Secondarynav';
 import BuyNowPage from './pages/BuyNowPage';
 import ProfilePage from './pages/Profile';
+import Footer from './components/Footer';
+import ProductsPageall from './pages/productsall';
 
 
 
@@ -27,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/products" element={<ProductsPageall />} />
         <Route path="/buy" element={<BuyNowPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products/subcategory/:subcategoryName" element={<ProductsPage />} />
@@ -61,6 +64,7 @@ function App() {
         />
       
       </Routes>
+      <Footer />
     </Router>
   );
 }

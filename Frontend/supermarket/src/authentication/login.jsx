@@ -117,9 +117,7 @@
               <div className="input-group">
                 <div className="label-container">
                   <label htmlFor="password">Password</label>
-                  <Link to="/forgot-password" className="forgot-link">
-                    Forgot password?
-                  </Link>
+                 
                 </div>
                 <input
                   id="password"
@@ -158,20 +156,7 @@
                 )}
               </button>
 
-              <div className="divider">
-                <span>Or continue with</span>
-              </div>
-
-              <div className="social-login">
-                <button type="button" className="social-btn google-btn">
-                  <span className="social-icon">G</span>
-                  Google
-                </button>
-                <button type="button" className="social-btn facebook-btn">
-                  <span className="social-icon">f</span>
-                  Facebook
-                </button>
-              </div>
+              
 
               <div className="signup-section">
                 <p>

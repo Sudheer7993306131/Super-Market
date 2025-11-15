@@ -67,7 +67,7 @@ const SellerOrders = () => {
     if (searchTerm) {
       filtered = filtered.filter(order => 
         order.id.toString().includes(searchTerm) ||
-        order.user?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.user?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.items?.some(item => 
           item.product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
         )
@@ -204,9 +204,6 @@ const SellerOrders = () => {
       {/* Error Message */}
       {error && (
         <div className="alert alert-error">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-          </svg>
           <span>{error}</span>
           <button onClick={() => setError("")} className="alert-close">×</button>
         </div>
@@ -216,13 +213,6 @@ const SellerOrders = () => {
       <div className="orders-content">
         {filteredOrders.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-illustration">
-              <svg viewBox="0 0 200 200" width="120" height="120">
-                <path fill="#e2e8f0" d="M100 20a80 80 0 100 160 80 80 0 000-160zm0 20a60 60 0 110 120 60 60 0 010-120z"/>
-                <path fill="#94a3b8" d="M140 80H60v40h80V80z"/>
-                <rect x="70" y="85" width="60" height="30" rx="4" fill="#64748b"/>
-              </svg>
-            </div>
             <h3>No orders found</h3>
             <p>
               {orders.length === 0 
@@ -235,7 +225,8 @@ const SellerOrders = () => {
           <div className="orders-grid">
             {filteredOrders.map((order) => {
               const statusColor = getStatusColor(order.status);
-              
+              const username = order.user?.username || "Guest Customer";
+
               return (
                 <div key={order.id} className="order-card">
                   <div className="order-header">
@@ -259,10 +250,7 @@ const SellerOrders = () => {
 
                   <div className="order-customer">
                     <div className="customer-info">
-                      <svg className="customer-icon" viewBox="0 0 24 24" width="16" height="16">
-                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
-                      <span>{order.user || "Guest Customer"}</span>
+                      <span>{username}</span>
                     </div>
                   </div>
 
@@ -278,26 +266,7 @@ const SellerOrders = () => {
                     <div className="items-preview">
                       {order.items?.slice(0, 3).map((item, index) => (
                         <div key={index} className="item-preview">
-                          <div className="item-image">
-                            {item.product?.image ? (
-                              <img 
-                                src={item.product.image} 
-                                alt={item.product.name}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
-                              />
-                            ) : null}
-                            <div className={`image-fallback ${item.product?.image ? 'hidden' : ''}`}>
-                              <svg viewBox="0 0 24 24" width="16" height="16">
-                                <path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
-                              </svg>
-                            </div>
-                          </div>
-                          <span className="item-name">
-                            {item.product?.name || "Unnamed Product"}
-                          </span>
+                          <span className="item-name">{item.product?.name || "Unnamed Product"}</span>
                           <span className="item-quantity">x{item.quantity}</span>
                         </div>
                       ))}
@@ -308,12 +277,6 @@ const SellerOrders = () => {
                   </div>
 
                   <div className="order-actions">
-                    <button 
-                      className="btn btn-outline"
-                      onClick={() => openOrderDetails(order)}
-                    >
-                      View Details
-                    </button>
                     <select 
                       value={order.status || 'pending'}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
@@ -336,127 +299,6 @@ const SellerOrders = () => {
           </div>
         )}
       </div>
-
-      {/* Order Details Modal */}
-      {showOrderModal && selectedOrder && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Order Details #{selectedOrder.id}</h2>
-              <button 
-                onClick={() => setShowOrderModal(false)}
-                className="modal-close"
-              >
-                ×
-              </button>
-            </div>
-            
-            <div className="modal-body">
-              <div className="order-detail-section">
-                <h3>Customer Information</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">Customer</span>
-                    <span className="detail-value">{selectedOrder.user || "Guest"}</span>
-                  </div>
-                  <div className="detail-item">
-                    <span className="detail-label">Order Date</span>
-                    <span className="detail-value">
-                      {formatDate(selectedOrder.created_at || new Date())}
-                    </span>
-                  </div>
-                  <div className="detail-item">
-                    <span className="detail-label">Status</span>
-                    <span 
-                      className="detail-status"
-                      style={getStatusColor(selectedOrder.status)}
-                    >
-                      {selectedOrder.status?.charAt(0).toUpperCase() + selectedOrder.status?.slice(1)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="order-detail-section">
-                <h3>Order Items</h3>
-                <div className="items-list">
-                  {selectedOrder.items?.map((item, index) => (
-                    <div key={index} className="order-item-detail">
-                      <div className="item-image">
-                        {item.product?.image ? (
-                          <img 
-                            src={item.product.image} 
-                            alt={item.product.name}
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                              e.target.nextSibling.style.display = 'flex';
-                            }}
-                          />
-                        ) : null}
-                        <div className={`image-fallback ${item.product?.image ? 'hidden' : ''}`}>
-                          <svg viewBox="0 0 24 24" width="24" height="24">
-                            <path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="item-info">
-                        <h4>{item.product?.name || "Unnamed Product"}</h4>
-                        <p className="item-price">
-                          {formatPrice(item.product?.price || 0)} × {item.quantity}
-                        </p>
-                      </div>
-                      <div className="item-total">
-                        {formatPrice((item.product?.price || 0) * item.quantity)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="order-detail-section">
-                <div className="order-total">
-                  <div className="total-row">
-                    <span>Subtotal</span>
-                    <span>{formatPrice(selectedOrder.total_price || 0)}</span>
-                  </div>
-                  <div className="total-row">
-                    <span>Shipping</span>
-                    <span>{formatPrice(0)}</span>
-                  </div>
-                  <div className="total-row grand-total">
-                    <span>Total</span>
-                    <span>{formatPrice(selectedOrder.total_price || 0)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              <button 
-                onClick={() => setShowOrderModal(false)}
-                className="btn btn-secondary"
-              >
-                Close
-              </button>
-              <select 
-                value={selectedOrder.status || 'pending'}
-                onChange={(e) => {
-                  updateOrderStatus(selectedOrder.id, e.target.value);
-                  setShowOrderModal(false);
-                }}
-                className="status-select modal-status"
-                style={getStatusColor(selectedOrder.status)}
-              >
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirm Order</option>
-                <option value="shipped">Mark as Shipped</option>
-                <option value="delivered">Mark as Delivered</option>
-                <option value="cancelled">Cancel Order</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

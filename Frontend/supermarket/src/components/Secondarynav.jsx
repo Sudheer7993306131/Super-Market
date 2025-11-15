@@ -56,8 +56,8 @@ const Secondarynav = () => {
 
   // ✅ Navigate to products page when subcategory clicked
   const handleNavigate = (subcategoryName) => {
-    const slug = subcategoryName.toLowerCase().trim().replace(/\s+/g, "-");
-    navigate(`/products/subcategory/${slug}`);
+    const encodedName = encodeURIComponent(subcategoryName);  
+    navigate(`/products/subcategory/${encodedName}`);
   };
 
   return (
@@ -90,11 +90,11 @@ const Secondarynav = () => {
                 className="subcategory-item"
                 onClick={() => handleNavigate(sub.name)}
               >
-                <img
+                {/* <img
                   src={sub.image || "/images/default.jpg"}
                   alt={sub.name}
                   onError={(e) => (e.target.src = "/images/default.jpg")}
-                />
+                /> */}
                 <p>{sub.name}</p>
               </div>
             ))

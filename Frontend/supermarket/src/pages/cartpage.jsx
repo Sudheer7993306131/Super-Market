@@ -110,14 +110,15 @@ const CartPage = () => {
   };
 
   const incrementQty = (productId) => {
-    const item = cartItems.find(item => item.product_id === productId);
+    const item = cartItems.find((item) => item.product_id === productId);
     if (item && item.quantity < item.stock) {
       updateQuantity(productId, item.quantity + 1);
     }
   };
-
+  
+  // Decrement quantity
   const decrementQty = (productId) => {
-    const item = cartItems.find(item => item.product_id === productId);
+    const item = cartItems.find((item) => item.product_id === productId);
     if (item && item.quantity > 1) {
       updateQuantity(productId, item.quantity - 1);
     }
@@ -162,7 +163,7 @@ const CartPage = () => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
     
     // Navigate to OrderPage
-    navigate("/orderpage");
+    navigate("/buy");
   };
 
   const continueShopping = () => {
