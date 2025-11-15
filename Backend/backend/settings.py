@@ -43,6 +43,7 @@ ALLOWED_HOSTS = [
     "super-market-back.onrender.com",
     "localhost",
     "127.0.0.1",
+    "https://super-market-fsfb.onrender.com"
 ]
 
 
