@@ -68,7 +68,7 @@ INSTALLED_APPS = [
 
     # Third-party
     'rest_framework',
-    'cloudinary_storage',
+    'rest_framework_simplejwt',
 
     # Your apps
     'api',
