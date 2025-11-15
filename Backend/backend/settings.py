@@ -39,7 +39,12 @@ SECRET_KEY = 'django-insecure-76#9=q96%snq81h7t_@!k&##87!112k#sno^xoq^_syo7dkzue
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "super-market-back.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
 
 
 
