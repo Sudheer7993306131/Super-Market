@@ -10,3 +10,4 @@ django-cloudinary-storage
 cloudinary
 djangorestframework-simplejwt
 django_extensions
+Pillow
