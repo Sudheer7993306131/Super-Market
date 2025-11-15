@@ -6,3 +6,7 @@ psycopg2-binary
 dj-database-url
 python-decouple
 dotenv
+cloudinary
+rest_framework_simplejwt
+cloudinary_storage
+django_extensions
