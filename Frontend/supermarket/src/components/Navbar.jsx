@@ -89,12 +89,7 @@ const Navbar = () => {
             title="Cart"
             onClick={() => navigate("/cart")}
           />
-          <FontAwesomeIcon
-            icon={faBell}
-            className="nav-icon"
-            title="Notifications"
-            onClick={toggleNotifications}
-          />
+         
           <FontAwesomeIcon
             icon={faUser}
             className="nav-icon profile-icon"
@@ -131,37 +126,16 @@ const Navbar = () => {
             My Orders
           </button>
 
-          <button className="offcanvas-action logout" onClick={() => alert("Logged out!")}>
+          <button className="offcanvas-action logout" onClick={() => navigate("/login")}>
             <FontAwesomeIcon icon={faRightFromBracket} className="action-icon" />
             Logout
           </button>
         </div>
       </div>
 
-      {/* =================== Notification Offcanvas =================== */}
-      <div className={`offcanvas-panel notification-panel ${showNotifications ? "active" : ""}`}>
-        <div className="offcanvas-header">
-          <h3>Notifications</h3>
-          <FontAwesomeIcon icon={faXmark} className="close-icon" onClick={closeAll} />
-        </div>
+      
 
-        <div className="offcanvas-content notifications-list">
-          <div className="notification-item">
-            <FontAwesomeIcon icon={faTruck} className="notif-icon" />
-            <p>Your order #2025 has been shipped!</p>
-          </div>
-
-          <div className="notification-item">
-            <FontAwesomeIcon icon={faBox} className="notif-icon" />
-            <p>New stock added in Grocery section. Check now!</p>
-          </div>
-
-          <div className="notification-item">
-            <FontAwesomeIcon icon={faEnvelopeOpenText} className="notif-icon" />
-            <p>Exclusive offers available this week — don’t miss out!</p>
-          </div>
-        </div>
-      </div>
+      
 
       {/* =================== Backdrop =================== */}
       {(showProfile || showNotifications) && (

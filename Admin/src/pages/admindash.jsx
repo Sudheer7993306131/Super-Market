@@ -373,7 +373,7 @@ const AdminDashboard = () => {
                         </td>
                         <td>
                           <div className="price-stock">
-                            <div className="price">${product.price}</div>
+                            <div className="price">₹{product.price}</div>
                             <div className="stock">
                               <span className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
                                 {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}

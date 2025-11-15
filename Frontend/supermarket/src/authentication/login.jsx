@@ -161,7 +161,7 @@
               <div className="signup-section">
                 <p>
                   Don't have an account?{" "}
-                  <Link to="/signup" className="signup-link">
+                  <Link to="/register" className="signup-link">
                     Create account
                   </Link>
                 </p>

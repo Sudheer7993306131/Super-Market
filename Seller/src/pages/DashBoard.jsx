@@ -139,7 +139,7 @@ const SellerDashboard = () => {
     },
     { 
       title: 'Total Revenue', 
-      value: '$0', 
+      value: '0', 
       change: '+0%', 
       color: 'orange',
       icon: '💰',
