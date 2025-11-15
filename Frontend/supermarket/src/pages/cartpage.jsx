@@ -25,7 +25,7 @@ const CartPage = () => {
 
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:8000/api/cart/', {
+      const res = await axios.get('https://super-market-back.onrender.com/api/cart/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +74,7 @@ const CartPage = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8000/api/cart/remove/${productId}/`, {
+      await axios.delete(`https://super-market-back.onrender.com/api/cart/remove/${productId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchCart(); // Refresh cart after removal
@@ -97,7 +97,7 @@ const CartPage = () => {
     if (!token) return;
 
     try {
-      await axios.put(`http://localhost:8000/api/cart/update/${productId}/`, 
+      await axios.put(`https://super-market-back.onrender.com/api/cart/update/${productId}/`, 
         { quantity: newQuantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -142,7 +142,7 @@ const CartPage = () => {
     try {
       // Clear all items one by one (you might want to implement a bulk delete endpoint)
       for (const item of cartItems) {
-        await axios.delete(`http://localhost:8000/api/cart/remove/${item.product_id}/`, {
+        await axios.delete(`https://super-market-back.onrender.com/api/cart/remove/${item.product_id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }

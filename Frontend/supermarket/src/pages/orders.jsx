@@ -19,7 +19,7 @@ const OrderPage = () => {
 
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:8000/api/orders/', {
+      const res = await axios.get('https://super-market-back.onrender.com/api/orders/', {
         headers: { Authorization: `Bearer ${token}` },
       });
       

@@ -43,13 +43,13 @@ const RegisterPage = () => {
     setLoading(true);
     setMessage("");
     try {
-      await axios.post("http://localhost:8000/api/auth/register/", {
+      await axios.post("https://super-market-back.onrender.com/api/auth/register/", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
       });
 
-      const loginResponse = await axios.post("http://localhost:8000/api/auth/login/", {
+      const loginResponse = await axios.post("https://super-market-back.onrender.com/api/auth/login/", {
         username: formData.username,
         password: formData.password,
       });

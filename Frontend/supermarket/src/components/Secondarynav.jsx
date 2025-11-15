@@ -13,7 +13,7 @@ const Secondarynav = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/categories/");
+        const res = await fetch("https://super-market-back.onrender.com/api/categories/");
         if (!res.ok) throw new Error("Failed to load categories");
         const data = await res.json();
         setCategories(data);
@@ -32,7 +32,7 @@ const Secondarynav = () => {
 
     // Fetch subcategories only once per category
     if (!subcategories[categoryName]) {
-      fetch(`http://127.0.0.1:8000/api/categories/${categoryName}/subcategories/`)
+      fetch(`https://super-market-back.onrender.com/api/categories/${categoryName}/subcategories/`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to load subcategories");
           return res.json();

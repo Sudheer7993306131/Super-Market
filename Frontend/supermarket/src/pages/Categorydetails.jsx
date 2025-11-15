@@ -6,7 +6,7 @@ function CategoryDetailPage() {
   const [categoryData, setCategoryData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/products/category/${categoryId}/grouped/`)
+    fetch(`https://super-market-back.onrender.com/api/products/category/${categoryId}/grouped/`)
       .then((res) => res.json())
       .then((data) => setCategoryData(data))
       .catch((err) => console.error("Error:", err));

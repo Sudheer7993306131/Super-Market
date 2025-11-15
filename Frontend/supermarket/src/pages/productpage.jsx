@@ -15,7 +15,7 @@ const ProductDetailPage = () => {
   const token = localStorage.getItem("access_token");
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/product/${id}/`)
+    fetch(`https://super-market-back.onrender.com/api/product/${id}/`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch product");
         return res.json();
@@ -36,7 +36,7 @@ const ProductDetailPage = () => {
   const handleAddToCart = () => {
     if (!token) return alert("Please log in to add to cart.");
     setAddingToCart(true);
-    fetch("http://127.0.0.1:8000/api/cart/add/", {
+    fetch("https://super-market-back.onrender.com/api/cart/add/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const ProductDetailPage = () => {
   const productImages = [
     product?.image?.startsWith("http")
       ? product.image
-      : `http://127.0.0.1:8000${product?.image}`,
+      : `https://super-market-back.onrender.com${product?.image}`,
   ];
 
   if (loading) return <div className="loading-state">Loading product...</div>;

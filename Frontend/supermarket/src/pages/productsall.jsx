@@ -18,7 +18,7 @@ const ProductsPageall = () => {
       const params = new URLSearchParams(location.search);
       const search = params.get("search") || "";
 
-      const res = await axios.get("http://localhost:8000/api/products/", {
+      const res = await axios.get("https://super-market-back.onrender.com/api/products/", {
         params: search ? { search } : {},
       });
 

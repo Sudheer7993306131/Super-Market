@@ -29,15 +29,15 @@ const ProfilePage = () => {
     }
 
     Promise.all([
-      fetch("http://127.0.0.1:8000/api/profile/", {
+      fetch("https://super-market-back.onrender.com/api/profile/", {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json()),
 
-      fetch("http://127.0.0.1:8000/api/orders/", {
+      fetch("https://super-market-back.onrender.com/api/orders/", {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json()),
 
-      fetch("http://127.0.0.1:8000/api/addresses/", {
+      fetch("https://super-market-back.onrender.com/api/addresses/", {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json()),
     ])
@@ -57,7 +57,7 @@ const ProfilePage = () => {
   const handleAddAddress = (e) => {
     e.preventDefault();
 
-    fetch("http://127.0.0.1:8000/api/addresses/add/", {
+    fetch("https://super-market-back.onrender.com/api/addresses/add/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -224,7 +224,7 @@ const ProfilePage = () => {
                         src={
                           item.product.image?.startsWith("http")
                             ? item.product.image
-                            : `http://127.0.0.1:8000${item.product.image}`
+                            : `https://super-market-back.onrender.com${item.product.image}`
                         }
                         alt={item.product.name}
                       />

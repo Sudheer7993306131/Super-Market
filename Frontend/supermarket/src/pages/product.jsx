@@ -28,7 +28,7 @@ const ProductsPage = () => {
     setError(null);
 
     fetch(
-      `http://127.0.0.1:8000/api/products/subcategory/${encodeURIComponent(subcategoryForApi)}/`
+      `https://super-market-back.onrender.com/api/products/subcategory/${encodeURIComponent(subcategoryForApi)}/`
     )
       .then((res) => {
         if (!res.ok) throw new Error(`Server responded ${res.status}`);
@@ -56,7 +56,7 @@ const ProductsPage = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/wishlist/", {
+    fetch("https://super-market-back.onrender.com/api/wishlist/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -81,7 +81,7 @@ const ProductsPage = () => {
   
     // Remove
     if (isInWishlist) {
-      fetch(`http://127.0.0.1:8000/api/wishlist/remove/${productId}/`, {
+      fetch(`https://super-market-back.onrender.com/api/wishlist/remove/${productId}/`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -92,7 +92,7 @@ const ProductsPage = () => {
   
     } else {
       // Add
-      fetch("http://127.0.0.1:8000/api/wishlist/add/", {
+      fetch("https://super-market-back.onrender.com/api/wishlist/add/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -237,7 +237,7 @@ const ProductsPage = () => {
             {filteredProducts.map((product) => {
               const imageUrl = product.image?.startsWith("http")
                 ? product.image
-                : `http://127.0.0.1:8000${product.image}`;
+                : `https://super-market-back.onrender.com${product.image}`;
               const isWishlisted = wishlist.includes(product.id);
 
               return (

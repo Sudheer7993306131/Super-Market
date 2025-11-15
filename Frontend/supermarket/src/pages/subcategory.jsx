@@ -6,7 +6,7 @@ function SubCategoryPage() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/products/subcategory/${subcategoryName}/`)
+    fetch(`https://super-market-back.onrender.com/api/products/subcategory/${subcategoryName}/`)
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => console.error("Error:", err));

@@ -19,7 +19,7 @@ const WishlistPage = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:8000/api/wishlist/", {
+        const response = await axios.get("https://super-market-back.onrender.com/api/wishlist/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -40,7 +40,7 @@ const WishlistPage = () => {
     setRemovingId(productId);
     
     try {
-      await axios.delete(`http://localhost:8000/api/wishlist/remove/${productId}/`, {
+      await axios.delete(`https://super-market-back.onrender.com/api/wishlist/remove/${productId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlist((prev) => prev.filter((item) => item.product.id !== productId));
@@ -60,7 +60,7 @@ const WishlistPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:8000/api/cart/add/", {
+      await axios.post("https://super-market-back.onrender.com/api/cart/add/", {
         product_id: product.id,
         quantity: 1,
       }, {
@@ -173,7 +173,7 @@ const WishlistPage = () => {
             <div className="product-image">
               {item.product && item.product.product_image ? (
                 <img
-                  src={`http://localhost:8000${item.product.product_image}`}
+                  src={`https://super-market-back.onrender.com${item.product.product_image}`}
                   alt={item.product.name}
                   className="product-img"
                 />

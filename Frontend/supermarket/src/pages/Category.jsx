@@ -7,7 +7,7 @@ function CategoryProductsPage() {
 
   // Fetch all categories
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/categories/")
+    fetch("https://super-market-back.onrender.com/api/categories/")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
@@ -15,7 +15,7 @@ function CategoryProductsPage() {
   // Fetch products when a category is selected
   const fetchProductsByCategory = (categoryId) => {
     setSelectedCategory(categoryId);
-    fetch(`http://127.0.0.1:8000/api/products/category/${categoryId}/`)
+    fetch(`https://super-market-back.onrender.com/api/products/category/${categoryId}/`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
   };
