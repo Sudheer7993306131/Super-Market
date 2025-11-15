@@ -7,6 +7,6 @@ dj-database-url
 python-decouple
 dotenv
 cloudinary
-djangorestframework-simplejwt
-django-cloudinary-storage
+rest_framework_simplejwt
+cloudinary_storage
 django_extensions

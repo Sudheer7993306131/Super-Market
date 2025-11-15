@@ -64,11 +64,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary', 
-    'django-cloudinary-storage',
+    'cloudinary_storage',
 
     # Third-party
     'rest_framework',
-    'djangorestframework-simplejwt',
+    'cloudinary_storage',
 
     # Your apps
     'api',
